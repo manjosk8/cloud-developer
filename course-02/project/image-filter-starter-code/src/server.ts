@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import urlExist = require('url-exist');
 
 (async () => {
 
@@ -29,6 +30,40 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
+  
+  app.get("/filteredimage", async (req, res) => {
+    const { image_url } = req.query;
+    if (!image_url) {
+      return res.status(400).send('image_url is required');
+    }
+    try {
+      const exists = await urlExist(image_url);
+      if (!exists) {
+        return res.status(400).send('image_url invalid URL specified');
+      }
+    } catch (e) {
+      return res.status(400).send('image_url invalid URL specified');
+    }
+
+    let imagePath: string;
+    try {
+      imagePath = await filterImageFromURL(image_url);
+    } catch (e) {
+      console.log(e);
+      return res.status(422).send(e.message);
+    }
+    
+    return res.sendFile(imagePath, null, async (error) => {
+      if (error) {
+        console.log(error);
+      }
+      try {
+        await deleteLocalFiles([imagePath]);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  });
   //! END @TODO1
   
   // Root Endpoint
