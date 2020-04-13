@@ -10,31 +10,49 @@ services:
         - backend-feed     
   backend-user:
     image: manjosk8/udacity-restapi-user
-    environment:
-      POSTGRESS_USERNAME: $POSTGRESS_USERNAME
-      POSTGRESS_PASSWORD: $POSTGRESS_PASSWORD 
-      POSTGRESS_DB: $POSTGRESS_DB 
-      POSTGRESS_HOST: $POSTGRESS_HOST 
-      AWS_REGION: $AWS_REGION 
-      AWS_PROFILE: $AWS_PROFILE 
-      AWS_BUCKET: $AWS_BUCKET
-      JWT_SECRET: $JWT_SECRET
-      URL: "http://localhost:8100"
+    # environment:
+    #   POSTGRESS_USERNAME: $POSTGRESS_USERNAME
+    #   POSTGRESS_PASSWORD: $POSTGRESS_PASSWORD 
+    #   POSTGRESS_DB: $POSTGRESS_DB 
+    #   POSTGRESS_HOST: $POSTGRESS_HOST 
+    #   AWS_REGION: $AWS_REGION 
+    #   AWS_PROFILE: $AWS_PROFILE 
+    #   AWS_BUCKET: $AWS_BUCKET
+    #   JWT_SECRET: $JWT_SECRET
+    #   URL: "http://localhost:8100"
+    env_file: test_env.env
+    depends_on:
+      - db
   backend-feed:
     image: manjosk8/udacity-restapi-feed
     volumes:
       - $HOME/.aws:/root/.aws
-    environment:
-      POSTGRESS_USERNAME: $POSTGRESS_USERNAME
-      POSTGRESS_PASSWORD: $POSTGRESS_PASSWORD 
-      POSTGRESS_DB: $POSTGRESS_DB 
-      POSTGRESS_HOST: $POSTGRESS_HOST 
-      AWS_REGION: $AWS_REGION 
-      AWS_PROFILE: $AWS_PROFILE 
-      AWS_BUCKET: $AWS_BUCKET
-      JWT_SECRET: $JWT_SECRET
-      URL: "http://localhost:8100"
+    # environment:
+    #   POSTGRESS_USERNAME: $POSTGRESS_USERNAME
+    #   POSTGRESS_PASSWORD: $POSTGRESS_PASSWORD 
+    #   POSTGRESS_DB: $POSTGRESS_DB 
+    #   POSTGRESS_HOST: $POSTGRESS_HOST 
+    #   AWS_REGION: $AWS_REGION 
+    #   AWS_PROFILE: $AWS_PROFILE 
+    #   AWS_BUCKET: $AWS_BUCKET
+    #   JWT_SECRET: $JWT_SECRET
+    #   URL: "http://localhost:8100"
+    env_file: test_env.env
+    depends_on:
+      - db
   frontend:
     image: manjosk8/udacity-frontend:local
     ports:
       - "8100:80"
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:11.4-alpine
+    ports:
+      - 5432:5432
+    # environment:
+    #   POSTGRES_DB: $POSTGRESS_DATABASE
+    #   POSTGRES_USER: $POSTGRESS_USERNAME
+    #   POSTGRES_PASSWORD: $POSTGRESS_PASSWORD
+    env_file: test_env.env
