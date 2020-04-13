@@ -8,7 +8,6 @@ import * as c from '../../../../config/config';
 const router: Router = Router();
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
- //   return next();
      if (!req.headers || !req.headers.authorization){
          return res.status(401).send({ message: 'No authorization headers.' });
      }
@@ -51,10 +50,20 @@ router.get('/:id',
 router.patch('/:id', 
     requireAuth, 
     async (req: Request, res: Response) => {
-        //@TODO try it yourself
-        res.send(500).send("not implemented")
+    const { id } = req.params;
+    const { caption, url } = req.body;
+    if (!id) {
+      return res.status(400).send('field id is required');
+    }
+    const requestedFeed = await FeedItem.findByPk(id);
+    if (requestedFeed) {
+      requestedFeed.caption = caption || requestedFeed.caption;
+      requestedFeed.url = url || requestedFeed.url;
+      await requestedFeed.save();
+      return res.send(requestedFeed);
+    }
+    return res.status(404).send(`feed ${id} is not found`);
 });
-
 
 // Get a signed url to put a new item in the bucket
 router.get('/signed-url/:fileName', 
