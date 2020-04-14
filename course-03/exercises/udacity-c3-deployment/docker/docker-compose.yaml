@@ -7,7 +7,7 @@ services:
       restart: always
       depends_on:
         - backend-user
-        - backend-feed     
+        - backend-feed
   backend-user:
     image: manjosk8/udacity-restapi-user
     # environment:
@@ -19,10 +19,8 @@ services:
     #   AWS_PROFILE: $AWS_PROFILE 
     #   AWS_BUCKET: $AWS_BUCKET
     #   JWT_SECRET: $JWT_SECRET
-    #   URL: "http://localhost:8100"
-    env_file: test_env.env
-    depends_on:
-      - db
+    #   URL: $URL
+    env_file: environment.env
   backend-feed:
     image: manjosk8/udacity-restapi-feed
     volumes:
@@ -36,23 +34,9 @@ services:
     #   AWS_PROFILE: $AWS_PROFILE 
     #   AWS_BUCKET: $AWS_BUCKET
     #   JWT_SECRET: $JWT_SECRET
-    #   URL: "http://localhost:8100"
-    env_file: test_env.env
-    depends_on:
-      - db
+    #   URL: $URL
+    env_file: environment.env
   frontend:
     image: manjosk8/udacity-frontend:local
     ports:
       - "8100:80"
-    depends_on:
-      - db
-  
-  db:
-    image: postgres:11.4-alpine
-    ports:
-      - 5432:5432
-    # environment:
-    #   POSTGRES_DB: $POSTGRESS_DATABASE
-    #   POSTGRES_USER: $POSTGRESS_USERNAME
-    #   POSTGRES_PASSWORD: $POSTGRESS_PASSWORD
-    env_file: test_env.env
