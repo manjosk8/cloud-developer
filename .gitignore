@@ -9,6 +9,7 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
+*.env
 .vscode/
 npm-debug.log*
 
@@ -34,4 +35,3 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 node_modules
 venv/
-.vscode
