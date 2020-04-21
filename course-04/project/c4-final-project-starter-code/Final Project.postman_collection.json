@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d0700d24-79ec-487e-8403-b565bef7f8e0",
+		"_postman_id": "a78ef59d-4fa4-4891-892a-9dbd35fae137",
 		"name": "Udacity C4 Project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -19,10 +19,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
 							"protocol": "https",
@@ -83,7 +79,7 @@
 				{
 					"name": "Update todo",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -102,7 +98,7 @@
 							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/e5b54c0a-454a-4e8e-9e18-c9565e2791f3",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -114,7 +110,7 @@
 							"path": [
 								"dev",
 								"todos",
-								"35dd600f-43c2-4649-903c-615e1586a26f"
+								"e5b54c0a-454a-4e8e-9e18-c9565e2791f3"
 							]
 						}
 					},
@@ -142,7 +138,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/f333fd91-6cd8-42f7-85b7-a2f5d474a6b2",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -154,7 +150,7 @@
 							"path": [
 								"dev",
 								"todos",
-								"fe671583-4512-45f6-9475-4265c04362fb"
+								"f333fd91-6cd8-42f7-85b7-a2f5d474a6b2"
 							]
 						}
 					},
@@ -162,6 +158,20 @@
 				},
 				{
 					"name": "Get attachment URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9dff673f-bee5-4f00-bd4e-1a8dac05c259",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    pm.collectionVariables.set('uploadUrl', pm.response.json().uploadUrl);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -176,7 +186,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/e5b54c0a-454a-4e8e-9e18-c9565e2791f3/attachment",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -188,8 +198,28 @@
 							"path": [
 								"dev",
 								"todos",
-								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
+								"e5b54c0a-454a-4e8e-9e18-c9565e2791f3",
 								"attachment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload image",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/home/manjosk8/Pictures/watchmen.jpg"
+							}
+						},
+						"url": {
+							"raw": "{{uploadUrl}}",
+							"host": [
+								"{{uploadUrl}}"
 							]
 						}
 					},
@@ -217,7 +247,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -244,16 +275,23 @@
 	],
 	"variable": [
 		{
-			"id": "bf208e6b-f66d-4008-9366-dd541ff65425",
+			"id": "d2cdd2fb-0768-4f58-bb47-5366ac5bad6a",
 			"key": "apiId",
-			"value": "",
+			"value": "1e9tohlai7",
 			"type": "string"
 		},
 		{
-			"id": "9bc6399a-d2bb-4f2d-9ffa-8480370d383c",
+			"id": "739a0a1d-9b37-48cb-bb82-c11fc87a8ae8",
 			"key": "authToken",
-			"value": "",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBZVjVSSFBVQXpNR0dlRjBiRkFVYyJ9.eyJpc3MiOiJodHRwczovL2Rldi03cThzaTBzZS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTQ2MzQ1OTg0MTYxNjgyNjM3NTUiLCJhdWQiOiJPY3NvRTY3aTU1aW1MZjVlbzF1OFVsbzJ4WmhSRHUzTCIsImlhdCI6MTU4NzQ1Mjc3NywiZXhwIjoxNTg3NDg4Nzc2LCJhdF9oYXNoIjoiMG5TcXlXYkU4TmUtN3A5a2V0bEM5ZyIsIm5vbmNlIjoiNjcxVGJwU0ZJQm1sVmg5VUdqcXg2cWc1U2NrWlVnbW0ifQ.Z9D-V2D2QK2tC9xmdjZdRWgVwO-ko7f71tMbeZr8ZksuhiG8gpqd64Ve0dGjXlW5fzkvjfgnuWaA17TO29uhLc0h8EP6h2_eISUsw8qhmf9Stf99amDaJ-7RIkE0GVhw6D0X1mUdzPktRsULgV9dehm7mpSmDIvxFeI-61uagyOvXRN1W1ktqfCJ16OYs1fcohpDJ2K9YNf1gJ6i2pK0lQQmxKOFYcXC8FsilELCrYvLJb0Kir0JkwsX7d3yo7JWop0RHSRwwfPMQHLsvhEUDSX-R77b9winkojLT-w_nsbQGKIqFvhF2V1CyxEvNm5crIcMGHKo5XwYLA5pIypxsQ",
+			"type": "string"
+		},
+		{
+			"id": "0b4060b6-35d0-491e-ac99-a34c68a77238",
+			"key": "uploadUrl",
+			"value": "https://serverless-udagram-images-manjosk8-dev.s3.amazonaws.com/e5b54c0a-454a-4e8e-9e18-c9565e2791f3.png?Content-Type=image%2Fpng&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAUQZDVNNUIGOZZ76W%2F20200421%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200421T084842Z&X-Amz-Expires=300&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAEaCXVzLWVhc3QtMSJHMEUCIBqYKnm8SjhRdkkIlDzZprC2o2yPVd%2B122FqTjk0rylyAiEA%2BjtxYPPoObtryIQKeLYdyKxEfUwjZrY6rRum2W4%2Fn3kq7AEIKhAAGgwzMTA5MjMwNjIxMjAiDO5fU%2BBt%2FElGqnXgHCrJAWRywn7eCV6un6MZfT%2FEnqjZqb1o%2FDGYi%2FWzpG5DbTVCmlFukYG5wYSresRJRVx6PD8%2B1dcbhFaqVJ77gijE1%2BkHgNa0toNv56l0uJJJ%2BnFAotDzAZeqI%2BXyFC8eAwjmiKm5QqgH58e3Z99%2FUWLmteOM7Pail3FGvf9la2KlGnlo3dLYk%2Billy9vYXTDX8XDp08CKFhVowP3J%2FYiP7ddtByKCXsENvXJvFZNMYO7Ehh1SSXasAQO6eJogNChdE0RcgC%2B%2BC7rpbRLczD25Pr0BTrgAfkRqUqi%2BRAuCec59G9k%2BP4Z2YO7nSQdMSf7sZPZUeNAtzhW94KE3zEO9CRF%2B7RR9KvtT1wJ%2FBls8PHoU%2B0498h0Ow%2FwMQ8qJFukXFdBa9hnKOA4RR1pwutnucfJ1aqw4c%2BH7ZiOG2NrcIF2PIgtd1Jsl%2FEFF7tz1%2FZQ%2FeSx4cAtxs68F%2Bly9e3kwPnx80VyqOH4%2BaaBUYrH8g1xU8H%2F19W0KWXh9Wmj%2Fnti5IJIBzU45d53MZJFGNImNuIctDkyGxUDcc0DKKI8a0vuAKCuI69M%2BCwWJuNXLmUyo8uFA0jR&X-Amz-Signature=1138b03627737f67cb8affd3ae3ec59b7e4c7256be1612c9891f279b06d4e6e1&X-Amz-SignedHeaders=host",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
