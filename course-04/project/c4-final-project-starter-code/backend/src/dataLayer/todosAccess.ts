@@ -116,6 +116,15 @@ export class TodoAccess {
                 todoId
             }
         }).promise()
+
+        //Delete S3 image if it exists
+        try {
+            await this.s3.deleteObject({
+                Bucket: this.bucketName,
+                Key: `${todoId}.png`
+            }).promise()
+        } catch (e) {
+        }
     }
 
     async getUploadUrl(todoId: string): Promise<string> {
